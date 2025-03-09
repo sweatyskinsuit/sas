@@ -1,4 +1,4 @@
-<?php require_once('../../private/initialize.php'); 
+<?php require_once('../../private/initialize.php');
 
 $salamanders = [
   ['id' => '1',  'salamanderName' => 'Red-Legged Salamander'],
@@ -7,8 +7,8 @@ $salamanders = [
   ['id' => '4',  'salamanderName' => 'Slimy Salamander'],
 ];
 
-$page_title = 'Salamanders'; 
-include(SHARED_PATH . '/salamander-header.php'); 
+$page_title = 'Salamanders';
+include(SHARED_PATH . '/salamander_header.php');
 
 ?>
 
@@ -36,4 +36,4 @@ include(SHARED_PATH . '/salamander-header.php');
       <?php } ?>
   	</table>
 
-<?php include(SHARED_PATH . '/salamander-footer.php'); ?>
+<?php include(SHARED_PATH . '/salamander_footer.php'); ?>
