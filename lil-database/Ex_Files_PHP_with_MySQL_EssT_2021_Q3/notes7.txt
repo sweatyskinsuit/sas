@@ -1,0 +1,45 @@
+An sql insert statement:
+    INSERT INTO table(col1, col2, col3)
+    VALUES(val1,val2,val3);
+
+Use form data to create records:
+    -use INSERT query
+    -no subjects.id required
+    -usually from form data
+    -returns true or false
+
+The way to find out what ID was created:
+    mysqli_insert_id($connection)
+ It basically says, hey, MySQL, I just gave you an insert statement. You just created a new record. I'd like to know what ID you assigned to it. Can you tell me that?
+
+ SQL UPDATE statement
+    UPDATE table
+    SET col1 = 'this', col2 = 'that'
+    WHERE id = 1;
+
+Use form data to create records
+    -use UPDATE query
+    -updating a single record requires subjects.id (primary key)
+    -usually from form data
+    -returns true or false (not a result set)
+
+SQL DELETE statement
+    DELETE FROM table
+    WHERE id = 1;
+
+DELETE a record
+    -use a DELETE query
+    -deleting a single record requires subjects.id
+    -form post is optional; POST is best practice
+    
+
+7 challenge:
+-read a page: /staff/pages/show.php
+-create a page: /staff/pages/new.php
+-update a page: /staff/pages/edit.php
+-delete a page: /staff/pages/delete.php
+
+-select-option for position
+-bonus: display subject names in place f subjec_id
+-advanced: create a select-option of subjects
+

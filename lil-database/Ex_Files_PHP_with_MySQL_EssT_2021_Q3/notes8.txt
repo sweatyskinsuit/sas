@@ -1,0 +1,131 @@
+Validate form values
+    - do not blindly trust user-provided data
+    - applications have data requirements
+    - code must enforce requirements on user-provided data
+    - validated data, passing validations
+
+common data validation types
+    - presense
+    - string length
+    - type 
+    - inclusion in a set
+    - format
+    - uniqueness
+
+strpos is a faster way to find out if a string is present or not, than using preg match
+
+Preg stands for perl regular expression
+
+validate form values
+    - validate data before creating and updating records
+    - same validations are often used for both
+    - put validation code in a reusable function
+    - if validations fail, create or update is prevented
+    - user needs to know what was wrong so they can fix it
+    - keep track of errors and report them
+    - reporting all errors at once is the best user experience
+
+display validation errors
+    - re-populate form field so user can fix them
+    - can indicate records as a list
+    - can indicate erros field by field
+
+    $errors = [];
+    $errors['menu_name'] = "Name can't be blank";
+
+    echo $errors['menu_name'] ??'';
+
+    if(isset($errors['menu_name'])) {
+        echo "<span class=\"error\">*</span>";
+    }
+
+Surprisingly true in php
+
+0 == FALSE (if compare 0 with false it will return true)
+4 == TRUE (if compare 4 against true it will return true)
+0 == NULL
+0 == "0"
+0 == ""
+0 == "a"
+"" == NULL 
+"abc" == TRUE
+100 == 100.00
+3 == "3 dogs"
+"1" == "01"
+"123" == "   123"
+"123" == "+0123"
+100 == "1e2"
+
+type juggling during comparisons
+    - string vs. null: converts null to ""
+    - boolean vs. other: converts other to boolean
+    - number vs. other: converts other to number
+
+    echo 0 == FALSE ? 'true' : 'false';
+    //true 
+
+    echo 0 == FALSE ? 'true' : 'false';
+    //false 
+
+    function has_string($value, $required_string) {
+        return strpos($value, $required_string) !== false;
+    }
+
+    strpos('abcde','a')
+    //0
+
+    strpos('abcde', 'a') == false
+    //true
+
+    strpos('abcde', 'a') === false
+    //false
+
+Surprisingly empty (all return true)
+
+"" 
+0 
+"0"
+null
+false
+array()
+
+problems with validation logic
+    - be careful with basic operators
+        <, <=, >, >=
+        && (joins 2 different operators together), || (or)
+    - be careful with regular expressions
+    - symbolic language is powerful, but it's easy to make mistakes
+    - easy to overlook rare cases
+    - learning regular expressions
+
+=== (Strict Equality)
+
+    Purpose: Checks if two values are equal and of the same type.
+    How it works: Unlike == (loose equality), which only checks for value equality, === ensures both the value and the type are the same. For example: 
+
+    5 === 5; // true (both are integers)
+    5 === '5'; // false (different types: integer vs string)
+
+isset()
+
+    Purpose: Checks if a variable is set and is not null.
+    How it works: Returns true if the variable exists and is not null, otherwise returns false. It's commonly used to check if a variable has been initialized. For example: 
+
+    $var = 'Hello';
+    isset($var); // true
+
+    $var = null;
+    isset($var); // false
+
+    unset($var);
+    isset($var); // false
+
+preg_match()
+
+    Purpose: Performs a regular expression match.
+    How it works: Searches a string for a pattern defined by a regular expression. Returns 1 if the pattern matches, 0 if it does not, and false if an error occurred. It's useful for validating formats like email addresses. For example: 
+
+    $pattern = '/\A[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}\Z/i';
+    $email = 'example@example.com';
+    preg_match($pattern, $email); // 1 (valid email format)
+

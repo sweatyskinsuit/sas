@@ -1,0 +1,37 @@
+php database interaction
+
+1. create a database connection
+2. perform a database query
+3. use the returned data (if any)
+4. release the returned data
+5. close the database connection
+
+
+for 1 and 5 we need these 2 functions:
+
+mysqli_connect($host, $user, $password, $database)
+mysqli_close($connection)
+
+number 2 and 4:
+
+mysqli_query($connection, $query)
+mysqli_free_result($result_set)
+
+work with retrieved data:
+mysqli_fetch_row
+    results are in standard array
+    use integers to access array -['1','About Globe Bank','1','1']
+    keys are integers
+    echo $subject[1];
+mysqli_fetch_assoc
+    results are in associative array
+    ['id'=>'1','menu_name'=>'Abiut Globe Bank','position'=>'1','visible'=>'1']
+    keys are column names
+    echo $subject['menu_name'];
+myqli_fetch_array
+    results are in either or both types of array
+    MYSQL_NUM, MYSQL_ASSOC, MYSQL_BOTH
+
+error handling:
+mysqli_connect_errno()
+mysqli_connect_error()
