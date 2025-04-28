@@ -1,0 +1,137 @@
+$sql = "INSTERT INTO subjects";
+$sql .= "(menu_name, position, visible)";
+$sql .= "VALUES" (";
+$sql .= "" .$subject['menu_name']. "',";
+$sql .= "" .$subject['position']. "',";
+$sql .= "" .$subject['visible']. "'";
+$sql .= ")";
+
+$subject['menu_name'] = "David's Story";
+
+"INSERT INTO subjects (menu_name, position, visible)
+VALUES('David's Story', '1', TRUE)";
+
+^ the comma after David will cause a bug, a hacker can exploit the bug to do a lot of harm
+
+
+$sql = "SELECT * subjects WHERE id=" .$id . "''';
+$id = "5";
+--"SELECT * FROM subjects WHERE id = '5"'--
+
+^ a hacker can come in and change it to:
+
+$id = "'; INSERT INTO admins (username, password)
+VALUES ('hacker', 'abcd1234'); SELECT * FROM subjects WHERE id='5';
+
+--"SELECT * FROM subjects WHERE id ="; INSERT INTO admins (username, password) VALUES ('hacker', 'abcd1234'); SELECT * FROM subjects WHERE id='5"'--
+
+SQL Injection
+- execute arbitrary SQL requests
+- craft string to manipulate SQL syntax and inject code
+- and quer which uses dynamic-data is vulnerable
+- URL parameters, form data, cookies, database data
+- SQLi
+- single biggest security concern
+- ranked number one securit threat by the Open Web         Application Security Project (OWASP)
+- easy for attackers to detect and exploit
+- gives access to large amounts of important data
+- web applications have high level of access
+- circumvents normal access controls
+- bypass application authentication
+- steal data
+- alter data
+- destroy data
+
+$sql = "SELECT * subjects WHERE id=" .$id . "''';
+then hacker gives it an id to drop a table:
+$id = "':DROP TABLE payments; --";
+
+"SELECT * FROM subjects WHERE id='';DROP TABLE payments;--');
+
+sanitize data for MySQL
+- convert characters with meaning in SQL syntax to data
+- add a backslash before all single quotes
+- $subject['menu_name'] = "David\'s Story";
+
+2 functions as solutions:
+
+addslashes($string)
+mysqli_real_escape_string($db, $string)
+
+because you have to add it to every single value, you can define a function instead:
+function db_escape($connection, $string) {
+    return mysqli_real_escape_string($connection, $string);
+}
+
+$sql = "SELECT * subjects ";
+$sql .= "WHERE id='" .db_escape($db, $id) . "'";
+
+$id = "'; DROP TABLE payments;--";
+
+"SELECT * FROM subjects WHERE id='\' DROP TABLE paments; --')"
+
+
+SQL and Single-Quoted Values 
+- required for strings, dates, and times
+- not required for numbers and booleans
+- small performance penalt to convert to correct type
+- large securit benefit to quoting all values 
+
+$sql = "SELECT * subjects ";
+$sql .= "WHERE id=" .db_escape($db, $id);
+
+$id = "1; DROP TABLE payments";
+
+--"SELECT * FROM subjects WHERE id=1; DROP TABLE payments"
+
+Delimit Data Values 
+- put single quotes around all values 
+- helps prevent SQL injection 
+- forces attackers to circumvent data delimiters
+
+$sql = "SELECT * subjects ";
+$sql .= "WHERE id=" .(int)$id;
+
+$id = "1; DROP TABLE payments";
+
+--"SELECT * FROM subjects WHERE id=1"
+
+always quote your values and always escape them
+
+
+INSERT INTO subjects
+    (menu_name, position, visible)
+VALUES 
+    (?, ?, ?)
+
+Prepared Statments
+- prepare statment once and reuse it many times
+- can be faster
+- separate the query from the dynamic data
+- prebent SQL injection
+
+
+
+What will the function mysqli_real_escape_string() change the following string to?
+ 
+
+'tomato' \\ "tomato" 
+
+\'tomato\' \\\\ \"tomato\" 
+
+You have a prepared statement with two string placeholders. How will you bind this statement to two variables?
+mysqli_stmt_bind_params($stmt, 'ss', $var1, $var2);
+The 'ss' argument tells the function that there are two variables and they should be interpreted as strings.
+
+
+
+Your code uses the following query to read dynamic input from the user. To break the database, what could a malicious user enter?
+ 
+
+$sql="SELECT * from users WHERE id='".$id."'";
+
+'; DROP TABLE users; -- 
+
+Correct
+
+This adds another valid DROP statement to the query, which will delete the table.
